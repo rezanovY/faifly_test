@@ -29,6 +29,9 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if (visitRepository.count() > 0) {
+            return;
+        }
         List<Doctor> doctors = IntStream.rangeClosed(1, 50)
                 .mapToObj(i -> Doctor.builder()
                         .firstName("Doc" + i)

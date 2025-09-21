@@ -8,5 +8,5 @@ import lombok.Data;
 public class DoctorOutputDto {
     private String firstName;
     private String lastName;
-    private Integer totalPatients;
+    private Long totalPatients;
 }

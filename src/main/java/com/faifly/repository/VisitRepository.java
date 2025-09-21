@@ -28,11 +28,14 @@ public interface VisitRepository extends JpaRepository<Visit, Integer> {
         """, nativeQuery = true)
     List<Visit> findLastVisitsPerPatientPerDoctor(@Param("patientIds") List<Integer> patientIds);
 
-    @Query("SELECT CASE WHEN COUNT(v) > 0 THEN true ELSE false END " +
-            "FROM Visit v " +
-            "WHERE v.doctorId = :doctorId " +
-            "AND (:start < v.endDateTime AND :end > v.startDateTime)")
+    @Query("""
+    SELECT CASE WHEN COUNT(v) > 0 THEN true ELSE false END
+    FROM Visit v
+    WHERE (v.doctorId = :doctorId OR v.patientId = :patientId)
+      AND (:start < v.endDateTime AND :end > v.startDateTime)
+    """)
     boolean existsOverlap(@Param("doctorId") Integer doctorId,
+                          @Param("patientId") Integer patientId,
                           @Param("start") Instant start,
                           @Param("end") Instant end);
 }

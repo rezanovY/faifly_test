@@ -34,9 +34,9 @@ public class VisitService {
         Instant start = startZdt.toInstant();
         Instant end = endZdt.toInstant();
 
-        boolean exists = visitRepository.existsOverlap(doctor.getId(), start, end);
+        boolean exists = visitRepository.existsOverlap(doctor.getId(), patient.getId(), start, end);
         if (exists) {
-            throw new IllegalArgumentException("Doctor already has a visit at this time");
+            throw new IllegalArgumentException("Doctor or patient already has a visit at this time");
         }
 
         Visit visit = new Visit();
